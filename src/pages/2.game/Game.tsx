@@ -486,6 +486,47 @@ const Game = () => {
                 </div>
             )
         }
+
+        const penalty = (players, play) => {
+            const committingPlayer = getPlayerFromId(players, play, "committedByPlayerId");
+            const victimPlayer = getPlayerFromId(players, play, "drawnByPlayerId");
+            const servedByPlayer = getPlayerFromId(players, play, "servedByPlayerId")
+            console.log(committingPlayer);
+
+            if (servedByPlayer) {
+                return(
+                    <div className="flex">
+                        <p>{play.details.descKey} penalty served by {servedByPlayer.firstName.default} {servedByPlayer.lastName.default} #{servedByPlayer.sweaterNumber} ({servedByPlayer.positionCode})</p>
+                        <Avatar>
+                            <AvatarImage src={servedByPlayer.headshot}/>
+                        </Avatar>
+                    </div>
+                )
+            }
+            
+            if (typeof(victimPlayer) === "undefined") {
+                return(
+                    <div className="flex">
+                        <Avatar>
+                            <AvatarImage src={committingPlayer.headshot}/>
+                        </Avatar>
+                        <p>{committingPlayer.firstName.default} {committingPlayer.lastName.default} #{committingPlayer.sweaterNumber} ({committingPlayer.positionCode}) {play.details.duration} min penalty for {play.details.descKey}</p>
+                    </div>
+                )
+            }
+
+            return(
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src={committingPlayer.headshot}/>
+                    </Avatar>
+                    <p>{committingPlayer.firstName.default} {committingPlayer.lastName.default} #{committingPlayer.sweaterNumber} ({committingPlayer.positionCode}) {play.details.duration} min penalty for {play.details.descKey} on {victimPlayer.firstName.default} {victimPlayer.lastName.default} #{victimPlayer.sweaterNumber} ({victimPlayer.positionCode})</p>
+                    <Avatar>
+                        <AvatarImage src={victimPlayer.headshot}/>
+                    </Avatar>
+                </div>
+            )
+        }
         
         return (
             <div>
@@ -515,6 +556,8 @@ const Game = () => {
                                         blockedShot(boxscore.players, play)}
                                     {play.typeDescKey === "shot-on-goal" &&
                                         shotOnGoal(boxscore.players, play)}
+                                    {play.typeDescKey === "penalty" &&
+                                        penalty(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
