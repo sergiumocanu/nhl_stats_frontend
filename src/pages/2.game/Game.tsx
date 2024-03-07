@@ -527,6 +527,20 @@ const Game = () => {
                 </div>
             )
         }
+
+        const missedShot = (players, play) => {
+            const shooter = getPlayerFromId(players, play, "shootingPlayerId")
+            const goalie = getPlayerFromId(players, play, "goalieInNetId")
+
+            return(
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src={shooter.headshot}/>
+                    </Avatar>
+                    <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) missed {play.details.shotType} shot because it was {play.details.reason}</p>
+                </div>
+            )
+        }
         
         return (
             <div>
@@ -535,7 +549,7 @@ const Game = () => {
                 ) : (
                     <div>
                         {boxscore.plays.map(play => 
-                            <Card className="flex justify-evenly">
+                            <Card className="flex justify-between">
                                 <div>
                                 <p>Period: {play.periodDescriptor.number}</p>
                                 <p>{play.timeRemaining}</p>
@@ -558,6 +572,8 @@ const Game = () => {
                                         shotOnGoal(boxscore.players, play)}
                                     {play.typeDescKey === "penalty" &&
                                         penalty(boxscore.players, play)}
+                                    {play.typeDescKey === "missed-shot" &&
+                                        missedShot(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
