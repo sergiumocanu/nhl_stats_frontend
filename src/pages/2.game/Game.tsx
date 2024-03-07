@@ -383,18 +383,20 @@ const Game = () => {
     
     const PlayByPlay = () => {
 
+        const getPlayerFromId = (players, play, property) => {
+            var chosenPlayer;
+            players.map(player => {
+                if(player.playerId === play.details[property]){
+                    console.log(player)
+                    chosenPlayer = player;
+                }
+            })
+            return(chosenPlayer)
+        }
+
         const getFOWinnerAndLoser = (players, play) => {
-            var winner, loser;
-            players.map(player => {
-                if(player.playerId === play.details.winningPlayerId) {
-                    winner = player
-                }
-            })
-            players.map(player => {
-                if(player.playerId === play.details.losingPlayerId) {
-                    loser = player
-                }
-            })
+            const winner = getPlayerFromId(players, play, "winningPlayerId")
+            const loser = getPlayerFromId(players, play, "losingPlayerId")
 
             return(
                 <div className="flex">
@@ -410,12 +412,7 @@ const Game = () => {
         }
 
         const giveawayPlayer = (players, play) => {
-            var giveawayPlayer
-            players.map(player => {
-                if(player.playerId === play.details.playerId) {
-                    giveawayPlayer = player;
-                }
-            })
+            const giveawayPlayer = getPlayerFromId(players, play, "playerId");
 
             return(
                 <div className="flex">
@@ -423,6 +420,19 @@ const Game = () => {
                         <AvatarImage src={giveawayPlayer.headshot}/>
                     </Avatar>
                     <p>Giveaway by {giveawayPlayer.firstName.default} {giveawayPlayer.lastName.default} #{giveawayPlayer.sweaterNumber} ({giveawayPlayer.positionCode})</p>
+                </div>
+            )
+        }
+
+        const takeawayPlayer = (players, play) => {
+            const takeawayPlayer = getPlayerFromId(players, play, "playerId");
+
+            return(
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src={takeawayPlayer.headshot}/>
+                    </Avatar>
+                    <p>Takeaway by {takeawayPlayer.firstName.default} {takeawayPlayer.lastName.default} #{takeawayPlayer.sweaterNumber} ({takeawayPlayer.positionCode})</p>
                 </div>
             )
         }
@@ -447,6 +457,8 @@ const Game = () => {
                                         getFOWinnerAndLoser(boxscore.players, play)}
                                     {play.typeDescKey === "giveaway" &&
                                         giveawayPlayer(boxscore.players, play)}
+                                    {play.typeDescKey === "takeaway" &&
+                                        takeawayPlayer(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
