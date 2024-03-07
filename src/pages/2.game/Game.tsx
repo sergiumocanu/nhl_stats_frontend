@@ -452,6 +452,23 @@ const Game = () => {
                 </div>
             )
         }
+
+        const blockedShot = (players, play) => {
+            const blockingPlayer = getPlayerFromId(players, play, "blockingPlayerId");
+            const shootingPlayer = getPlayerFromId(players, play, "shootingPlayerId");
+
+            return(
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src={blockingPlayer.headshot}/>
+                    </Avatar>
+                    <p>{blockingPlayer.firstName.default} {blockingPlayer.lastName.default} #{blockingPlayer.sweaterNumber} ({blockingPlayer.positionCode}) blocked the shot by {shootingPlayer.firstName.default} {shootingPlayer.lastName.default} #{shootingPlayer.sweaterNumber} ({shootingPlayer.positionCode})</p>
+                    <Avatar>
+                        <AvatarImage src={shootingPlayer.headshot}/>
+                    </Avatar>
+                </div>
+            )
+        }
         
         return (
             <div>
@@ -477,6 +494,8 @@ const Game = () => {
                                         takeawayPlayer(boxscore.players, play)}
                                     {play.typeDescKey === "hit" &&
                                         hit(boxscore.players, play)}
+                                    {play.typeDescKey === "blocked-shot" &&
+                                        blockedShot(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
