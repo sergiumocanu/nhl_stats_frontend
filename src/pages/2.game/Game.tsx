@@ -387,7 +387,6 @@ const Game = () => {
             var chosenPlayer;
             players.map(player => {
                 if(player.playerId === play.details[property]){
-                    console.log(player)
                     chosenPlayer = player;
                 }
             })
@@ -436,6 +435,23 @@ const Game = () => {
                 </div>
             )
         }
+
+        const hit = (players, play) => {
+            const hittingPlayer = getPlayerFromId(players, play, "hittingPlayerId");
+            const playerGettingHit = getPlayerFromId(players, play, "hitteePlayerId");
+
+            return(
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src={hittingPlayer.headshot}/>
+                    </Avatar>
+                    <p>{hittingPlayer.firstName.default} {hittingPlayer.lastName.default} #{hittingPlayer.sweaterNumber} ({hittingPlayer.positionCode}) hit on {playerGettingHit.firstName.default} {playerGettingHit.lastName.default} #{playerGettingHit.sweaterNumber} ({playerGettingHit.positionCode})</p>
+                    <Avatar>
+                        <AvatarImage src={playerGettingHit.headshot}/>
+                    </Avatar>
+                </div>
+            )
+        }
         
         return (
             <div>
@@ -459,6 +475,8 @@ const Game = () => {
                                         giveawayPlayer(boxscore.players, play)}
                                     {play.typeDescKey === "takeaway" &&
                                         takeawayPlayer(boxscore.players, play)}
+                                    {play.typeDescKey === "hit" &&
+                                        hit(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
