@@ -469,6 +469,23 @@ const Game = () => {
                 </div>
             )
         }
+
+        const shotOnGoal = (players, play) => {
+            const shooter = getPlayerFromId(players, play, "shootingPlayerId");
+            const goalie = getPlayerFromId(players, play, "goalieInNetId");
+
+            return(
+                <div className="flex">
+                    <Avatar>
+                        <AvatarImage src={shooter.headshot}/>
+                    </Avatar>
+                    <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) {play.details.shotType} shot saved by {goalie.firstName.default} {goalie.lastName.default} #{goalie.sweaterNumber} ({goalie.positionCode})</p>
+                    <Avatar>
+                        <AvatarImage src={goalie.headshot}/>
+                    </Avatar>
+                </div>
+            )
+        }
         
         return (
             <div>
@@ -496,6 +513,8 @@ const Game = () => {
                                         hit(boxscore.players, play)}
                                     {play.typeDescKey === "blocked-shot" &&
                                         blockedShot(boxscore.players, play)}
+                                    {play.typeDescKey === "shot-on-goal" &&
+                                        shotOnGoal(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
