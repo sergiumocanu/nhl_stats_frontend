@@ -541,6 +541,67 @@ const Game = () => {
                 </div>
             )
         }
+
+        const goal = (players, play) => {
+            const shooter = getPlayerFromId(players, play, "scoringPlayerId");
+            const ass1 = getPlayerFromId(players, play, "assist1PlayerId");
+            const ass2 = getPlayerFromId(players, play, "assist2PlayerId");
+            const goalie = getPlayerFromId(players, play, "goalieInNetId");
+
+            if (typeof(ass1) !== "undefined" && typeof(ass2) !== "undefined"){
+                return(
+                    <div className="flex">
+                        <Avatar>
+                            <AvatarImage src={shooter.headshot}/>
+                        </Avatar>
+                        <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored on {goalie.firstName.default} {goalie.lastName.default} #{goalie.sweaterNumber} ({goalie.positionCode}) with a {play.details.shotType} shot. </p>
+                        <Avatar>
+                            <AvatarImage src={goalie.headshot}/>
+                        </Avatar>
+                        <p>Assisted by {ass1.firstName.default} {ass1.lastName.default} #{ass1.sweaterNumber} ({ass1.positionCode}) [{play.details.assist1PlayerTotal}] and {ass2.firstName.default} {ass2.lastName.default} #{ass2.sweaterNumber} ({ass2.positionCode}) [{play.details.assist2PlayerTotal}]</p>
+                        <Avatar>
+                            <AvatarImage src={ass1.headshot}/>
+                        </Avatar>
+                        <Avatar>
+                            <AvatarImage src={ass2.headshot}/>
+                        </Avatar>
+                    </div>
+                )
+            }
+
+            if (typeof(ass1) !== "undefined" && typeof(ass2) === "undefined"){
+                return(
+                    <div className="flex">
+                        <Avatar>
+                            <AvatarImage src={shooter.headshot}/>
+                        </Avatar>
+                        <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored on {goalie.firstName.default} {goalie.lastName.default} #{goalie.sweaterNumber} ({goalie.positionCode}) with a {play.details.shotType} shot. </p>
+                        <Avatar>
+                            <AvatarImage src={goalie.headshot}/>
+                        </Avatar>
+                        <p>Assisted by {ass1.firstName.default} {ass1.lastName.default} #{ass1.sweaterNumber} ({ass1.positionCode}) [{play.details.assist1PlayerTotal}]</p>
+                        <Avatar>
+                            <AvatarImage src={ass1.headshot}/>
+                        </Avatar>
+                    </div>
+                )
+            }
+
+            if (typeof(ass1) === "undefined" && typeof(ass2) === "undefined"){
+                return(
+                    <div className="flex">
+                        <Avatar>
+                            <AvatarImage src={shooter.headshot}/>
+                        </Avatar>
+                        <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored on {goalie.firstName.default} {goalie.lastName.default} #{goalie.sweaterNumber} ({goalie.positionCode}) with a {play.details.shotType} shot. </p>
+                        <Avatar>
+                            <AvatarImage src={goalie.headshot}/>
+                        </Avatar>
+                        <p>Unassisted</p>
+                    </div>
+                )
+            }
+        }
         
         return (
             <div>
@@ -551,7 +612,7 @@ const Game = () => {
                         {boxscore.plays.map(play => 
                             <Card className="flex justify-between">
                                 <div>
-                                <p>Period: {play.periodDescriptor.number}</p>
+                                <p>P: {play.periodDescriptor.number}</p>
                                 <p>{play.timeRemaining}</p>
                                 </div>
                                 <div>
@@ -574,6 +635,8 @@ const Game = () => {
                                         penalty(boxscore.players, play)}
                                     {play.typeDescKey === "missed-shot" &&
                                         missedShot(boxscore.players, play)}
+                                    {play.typeDescKey === "goal" &&
+                                        goal(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
