@@ -490,8 +490,7 @@ const Game = () => {
         const penalty = (players, play) => {
             const committingPlayer = getPlayerFromId(players, play, "committedByPlayerId");
             const victimPlayer = getPlayerFromId(players, play, "drawnByPlayerId");
-            const servedByPlayer = getPlayerFromId(players, play, "servedByPlayerId")
-            console.log(committingPlayer);
+            const servedByPlayer = getPlayerFromId(players, play, "servedByPlayerId");
 
             if (servedByPlayer) {
                 return(
@@ -602,6 +601,15 @@ const Game = () => {
                 )
             }
         }
+
+        const stoppage = (players, play) => {
+
+            return(
+                <div>
+                    <p>Play stopped: {play.details.reason.replace(/-/g, ' ')}</p>
+                </div>
+            )
+        }
         
         return (
             <div>
@@ -637,6 +645,8 @@ const Game = () => {
                                         missedShot(boxscore.players, play)}
                                     {play.typeDescKey === "goal" &&
                                         goal(boxscore.players, play)}
+                                    {play.typeDescKey === "stoppage" &&
+                                        stoppage(boxscore.players, play)}
                                 </div>
                             </Card>
                         )}
