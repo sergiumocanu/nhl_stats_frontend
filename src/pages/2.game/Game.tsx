@@ -1,4 +1,3 @@
-import * as React from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
  
@@ -21,18 +20,18 @@ import { AvatarImage } from "@radix-ui/react-avatar"
 
 const Game = () => {
 
-    const [date, setDate] = React.useState<Date | undefined>(new Date())
+    const [date, setDate] = useState<Date | undefined>(new Date())
     const gameDate = date?.toLocaleString("en-CA").slice(0, 10)
-    const [boxscore, setBoxscore] = React.useState()
+    const [boxscore, setBoxscore] = useState<any>()
 
-    const getButtonId = async (el) => {
+    const getButtonId = async (el: any) => {
         console.log(el.target.id)
         try {
             const game_id = el.target.id;
             const data = await (await fetch(`/api/game_details?game_id=${game_id}`)).json()
             setBoxscore(data)
             console.log(data)
-        } catch (err) {
+        } catch (err: any) {
             console.log(err.message)
         }
     }
@@ -88,7 +87,7 @@ const Game = () => {
     
     const GamesByDate = () => {
 
-        const [games, setGames] = useState();
+        const [games, setGames] = useState<any>();
 
         useEffect(() => {
             fetch(`/api/game?date=${gameDate}`)
@@ -101,7 +100,7 @@ const Game = () => {
         return(
                 <Carousel className="pt-5">
                     <CarouselContent className="-ml-1">
-                    {games?.games?.map(game => 
+                    {games?.games?.map((game: any) => 
                         <CarouselItem className="pl-1 md:basis-1/2 lg:basis-1/5">
                             <Card className="flex flex-col justify-between">
                                 <CardHeader className="flex-row gap-4 items-center">
@@ -316,7 +315,7 @@ const Game = () => {
                                 </CardDescription>
                                 <CardContent>
                                     <p className="text-base">Period {boxscore.summary_data.awayTeamAbbrev} {boxscore.summary_data.homeTeamAbbrev}</p>
-                                    {boxscore.summary_data.team_goals_by_period.map(goals => 
+                                    {boxscore.summary_data.team_goals_by_period.map((goals: any) => 
                                     <div>
                                         <p className="text-base">{goals.period} {goals.away_score} {goals.home_score}</p>
                                         <Separator className="w-10"/>
@@ -345,7 +344,7 @@ const Game = () => {
                     </div>
                     <div>
                         <h1 className="text-left">Scoring Summary</h1>
-                        {boxscore.summary_data.period_player_goals.map(goal =>
+                        {boxscore.summary_data.period_player_goals.map((goal: any) =>
                         <div className="pb-3"> 
                             <Card>
                                 <CardContent className="flex flex-wrap align-middle justify-between">
@@ -363,7 +362,7 @@ const Game = () => {
                                         ) : (
                                             <div className="">
                                                 <p>Assists:</p>
-                                            {goal.assist.map( assist => 
+                                            {goal.assist.map((assist: any) => 
                                                 <p className="text-sm text-muted-foreground">{assist.player} ({assist.assistsToDate})</p>
                                             )}
                                             </div>
@@ -383,9 +382,9 @@ const Game = () => {
     
     const PlayByPlay = () => {
 
-        const getPlayerFromId = (players, play, property) => {
-            var chosenPlayer;
-            players.map(player => {
+        const getPlayerFromId = (players: any, play: any, property: string) => {
+            var chosenPlayer: any;
+            players.map((player: any) => {
                 if(player.playerId === play.details[property]){
                     chosenPlayer = player;
                 }
@@ -393,7 +392,7 @@ const Game = () => {
             return(chosenPlayer)
         }
 
-        const getFOWinnerAndLoser = (players, play) => {
+        const getFOWinnerAndLoser = (players: any, play: any) => {
             const winner = getPlayerFromId(players, play, "winningPlayerId")
             const loser = getPlayerFromId(players, play, "losingPlayerId")
 
@@ -410,7 +409,7 @@ const Game = () => {
             )
         }
 
-        const giveawayPlayer = (players, play) => {
+        const giveawayPlayer = (players: any, play: any) => {
             const giveawayPlayer = getPlayerFromId(players, play, "playerId");
 
             return(
@@ -423,7 +422,7 @@ const Game = () => {
             )
         }
 
-        const takeawayPlayer = (players, play) => {
+        const takeawayPlayer = (players: any, play: any) => {
             const takeawayPlayer = getPlayerFromId(players, play, "playerId");
 
             return(
@@ -436,7 +435,7 @@ const Game = () => {
             )
         }
 
-        const hit = (players, play) => {
+        const hit = (players: any, play: any) => {
             const hittingPlayer = getPlayerFromId(players, play, "hittingPlayerId");
             const playerGettingHit = getPlayerFromId(players, play, "hitteePlayerId");
 
@@ -453,7 +452,7 @@ const Game = () => {
             )
         }
 
-        const blockedShot = (players, play) => {
+        const blockedShot = (players: any, play: any) => {
             const blockingPlayer = getPlayerFromId(players, play, "blockingPlayerId");
             const shootingPlayer = getPlayerFromId(players, play, "shootingPlayerId");
 
@@ -470,7 +469,7 @@ const Game = () => {
             )
         }
 
-        const shotOnGoal = (players, play) => {
+        const shotOnGoal = (players: any, play: any) => {
             const shooter = getPlayerFromId(players, play, "shootingPlayerId");
             const goalie = getPlayerFromId(players, play, "goalieInNetId");
 
@@ -487,7 +486,7 @@ const Game = () => {
             )
         }
 
-        const penalty = (players, play) => {
+        const penalty = (players: any, play: any) => {
             const committingPlayer = getPlayerFromId(players, play, "committedByPlayerId");
             const victimPlayer = getPlayerFromId(players, play, "drawnByPlayerId");
             const servedByPlayer = getPlayerFromId(players, play, "servedByPlayerId");
@@ -527,9 +526,9 @@ const Game = () => {
             )
         }
 
-        const missedShot = (players, play) => {
+        const missedShot = (players: any, play: any) => {
             const shooter = getPlayerFromId(players, play, "shootingPlayerId")
-            const goalie = getPlayerFromId(players, play, "goalieInNetId")
+            // const goalie = getPlayerFromId(players, play, "goalieInNetId")
 
             return(
                 <div className="flex">
@@ -541,7 +540,7 @@ const Game = () => {
             )
         }
 
-        const goal = (players, play) => {
+        const goal = (players: any, play: any) => {
             const shooter = getPlayerFromId(players, play, "scoringPlayerId");
             const ass1 = getPlayerFromId(players, play, "assist1PlayerId");
             const ass2 = getPlayerFromId(players, play, "assist2PlayerId");
@@ -602,7 +601,7 @@ const Game = () => {
             }
         }
 
-        const stoppage = (players, play) => {
+        const stoppage = (play: any) => {
 
             return(
                 <div>
@@ -617,7 +616,7 @@ const Game = () => {
                     <p>Choose a game from above</p>
                 ) : (
                     <div>
-                        {boxscore.plays.map(play => 
+                        {boxscore.plays.map((play: any) => 
                             <Card className="flex justify-between">
                                 <div>
                                 <p>P: {play.periodDescriptor.number}</p>
@@ -646,7 +645,7 @@ const Game = () => {
                                     {play.typeDescKey === "goal" &&
                                         goal(boxscore.players, play)}
                                     {play.typeDescKey === "stoppage" &&
-                                        stoppage(boxscore.players, play)}
+                                        stoppage(boxscore.players)}
                                 </div>
                             </Card>
                         )}

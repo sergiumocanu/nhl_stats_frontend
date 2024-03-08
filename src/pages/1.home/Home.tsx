@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 const Home = () => {
 
-    const [data, setData] = useState([{}])
+    const [data, setData] = useState<any>([{}])
 
     useEffect(() => {
         fetch("/api/scores")
@@ -23,7 +23,7 @@ const Home = () => {
             <h1 className="text-3xl">{"Today's Games " + data.date}</h1>
         </div>
         <div className="grid grid-cols-5 gap-5">
-            {data.scores?.map(score => (
+            {data.scores?.map((score: any) => (
                 <Card className="flex flex-col justify-between"> {/* add key in here based on the game id */}
                     <CardHeader className="flex-row gap-4 items-center">
                         <CardTitle>

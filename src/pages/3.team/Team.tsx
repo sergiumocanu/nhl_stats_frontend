@@ -1,12 +1,10 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { type } from "os"
-import { ColumnDef } from "@tanstack/react-table"
 import { useEffect, useState } from "react"
 import AppTable from "@/components/Table"
 
 const Team = () => {
   
-  const [team, setTeam] = useState("")
+  const [team, setTeam] = useState<any>("")
   var teamChosen = false
   if (typeof team.team_roster !== "undefined") {
     console.log(team)
@@ -14,7 +12,7 @@ const Team = () => {
   }
 
   const TeamPicker = () => {
-    const [data, setData] = useState([{}])
+    const [data, setData] = useState<any>([{}])
     console.log(team)
 
     useEffect(() => {
@@ -34,7 +32,7 @@ const Team = () => {
           <SelectValue placeholder="Select a Team" />
         </SelectTrigger>
         <SelectContent>
-          {data.team_names?.map(team_name => (
+          {data.team_names?.map((team_name: any) => (
             <SelectItem value={team_name.value}>{team_name.label}</SelectItem>
           ))}
         </SelectContent>
@@ -45,7 +43,7 @@ const Team = () => {
   
   const TeamRoster = () => {
 
-    const [ roster, setRoster ] = useState([]);
+    const [ roster, setRoster ] = useState<any>([]);
     useEffect(() => {
       console.log("inside teamroster useeffect ", team)
       fetch(`/api/team_roster?team=${team}`)
