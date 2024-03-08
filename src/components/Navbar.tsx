@@ -15,28 +15,28 @@ const Navbar = () => {
         <NavigationMenu>
         <NavigationMenuList>
             <NavigationMenuItem>
-            <Link href="/" legacybehavior passhref>
+            <Link href="/">
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Home
                 </NavigationMenuLink>
             </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-            <Link href="/game" legacybehavior passhref>
+            <Link href="/game">
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Game
                 </NavigationMenuLink>
             </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-            <Link href="/team" legacybehavior passhref>
+            <Link href="/team">
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Team
                 </NavigationMenuLink>
             </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-            <Link href="/player" legacybehavior passhref>
+            <Link href="/player">
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Player
                 </NavigationMenuLink>

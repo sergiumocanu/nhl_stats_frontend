@@ -547,6 +547,23 @@ const Game = () => {
             const goalie = getPlayerFromId(players, play, "goalieInNetId");
 
             if (typeof(ass1) !== "undefined" && typeof(ass2) !== "undefined"){
+                if (typeof(goalie) === "undefined"){
+                    return(
+                        <div className="flex">
+                            <Avatar>
+                                <AvatarImage src={shooter.headshot}/>
+                            </Avatar>
+                            <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored an empty net goal with a {play.details.shotType} shot. </p>
+                            <p>Assisted by {ass1.firstName.default} {ass1.lastName.default} #{ass1.sweaterNumber} ({ass1.positionCode}) [{play.details.assist1PlayerTotal}] and {ass2.firstName.default} {ass2.lastName.default} #{ass2.sweaterNumber} ({ass2.positionCode}) [{play.details.assist2PlayerTotal}]</p>
+                            <Avatar>
+                                <AvatarImage src={ass1.headshot}/>
+                            </Avatar>
+                            <Avatar>
+                                <AvatarImage src={ass2.headshot}/>
+                            </Avatar>
+                        </div>
+                    )
+                }
                 return(
                     <div className="flex">
                         <Avatar>
@@ -568,6 +585,20 @@ const Game = () => {
             }
 
             if (typeof(ass1) !== "undefined" && typeof(ass2) === "undefined"){
+                if (typeof(goalie) === "undefined"){
+                    return(
+                        <div className="flex">
+                            <Avatar>
+                                <AvatarImage src={shooter.headshot}/>
+                            </Avatar>
+                            <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored an empty net goal with a {play.details.shotType} shot. </p>
+                            <p>Assisted by {ass1.firstName.default} {ass1.lastName.default} #{ass1.sweaterNumber} ({ass1.positionCode}) [{play.details.assist1PlayerTotal}]</p>
+                            <Avatar>
+                                <AvatarImage src={ass1.headshot}/>
+                            </Avatar>
+                        </div>
+                    )
+                }
                 return(
                     <div className="flex">
                         <Avatar>
@@ -575,8 +606,8 @@ const Game = () => {
                         </Avatar>
                         <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored on {goalie.firstName.default} {goalie.lastName.default} #{goalie.sweaterNumber} ({goalie.positionCode}) with a {play.details.shotType} shot. </p>
                         <Avatar>
-                            <AvatarImage src={goalie.headshot}/>
-                        </Avatar>
+                                <AvatarImage src={goalie.headshot}/>
+                            </Avatar>
                         <p>Assisted by {ass1.firstName.default} {ass1.lastName.default} #{ass1.sweaterNumber} ({ass1.positionCode}) [{play.details.assist1PlayerTotal}]</p>
                         <Avatar>
                             <AvatarImage src={ass1.headshot}/>
@@ -586,6 +617,17 @@ const Game = () => {
             }
 
             if (typeof(ass1) === "undefined" && typeof(ass2) === "undefined"){
+                if (typeof(goalie) === "undefined") {
+                    return(
+                        <div className="flex">
+                            <Avatar>
+                                <AvatarImage src={shooter.headshot}/>
+                            </Avatar>
+                            <p>{shooter.firstName.default} {shooter.lastName.default} #{shooter.sweaterNumber} ({shooter.positionCode}) [{play.details.scoringPlayerTotal}] has scored an empty net goal with a {play.details.shotType} shot. </p>
+                            <p>Unassisted</p>
+                        </div>
+                    )
+                }
                 return(
                     <div className="flex">
                         <Avatar>
@@ -645,7 +687,7 @@ const Game = () => {
                                     {play.typeDescKey === "goal" &&
                                         goal(boxscore.players, play)}
                                     {play.typeDescKey === "stoppage" &&
-                                        stoppage(boxscore.players)}
+                                        stoppage(play)}
                                 </div>
                             </Card>
                         )}
