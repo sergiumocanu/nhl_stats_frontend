@@ -10,7 +10,7 @@ import {
     TableRow,
   } from "@/components/ui/table"
 
-export default function AppTable({ columns, data }) {
+export default function AppTable({ columns, data }: any) {
     
   // Use the useTable Hook to send the columns and data to build the table
   const table = useReactTable({
