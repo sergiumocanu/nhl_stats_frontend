@@ -7,7 +7,7 @@ const Home = () => {
     const [data, setData] = useState<any>([{}])
 
     useEffect(() => {
-        fetch("/api/scores")
+        fetch("https://nhl-stats-backend.onrender.com/scores")
         .then(res => res.json())
         .then(
             data => {
