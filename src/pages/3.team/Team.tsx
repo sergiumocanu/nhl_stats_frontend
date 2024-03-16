@@ -6,6 +6,7 @@ import { skaterRoster } from "./ColumnDefs"
 const Team = () => {
   
   const [team, setTeam] = useState<any>("")
+  const [teamSeason, setTeamSeason] = useState<any>("")
   var teamChosen = false
   if (typeof team.team_roster !== "undefined") {
     console.log(team)
@@ -26,7 +27,7 @@ const Team = () => {
 
     return(
       <div>
-        <Select>
+        <Select value={teamSeason} onValueChange={setTeamSeason}>
           <SelectTrigger>
             <SelectValue placeholder="Season"/>
           </SelectTrigger>
@@ -75,7 +76,7 @@ const Team = () => {
     const [ roster, setRoster ] = useState<any>([]);
     useEffect(() => {
       console.log("inside teamroster useeffect ", team)
-      fetch(`/api/team_roster?team=${team}`)
+      fetch(`/api/team_roster?team=${team}&season=${teamSeason}`)
       .then(res => res.json())
       .then(
           data => {
