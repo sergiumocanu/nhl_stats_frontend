@@ -1,6 +1,7 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useEffect, useState } from "react"
 import AppTable from "@/components/Table"
+import { skaterRoster } from "./ColumnDefs"
 
 const Team = () => {
   
@@ -9,6 +10,34 @@ const Team = () => {
   if (typeof team.team_roster !== "undefined") {
     console.log(team)
     teamChosen = true
+  }
+
+  const SeasonPicker = () => {
+    const [season, setSeason] = useState<any>()
+
+    useEffect(() => {
+      fetch(`api/team_seasons?team=${team}`)
+      .then(res => res.json())
+      .then(data => {
+        setSeason(data)
+        console.log(data)
+      })
+    }, [team])
+
+    return(
+      <div>
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Season"/>
+          </SelectTrigger>
+          <SelectContent>
+            {season?.team_seasons?.map((season: any) => (
+              <SelectItem value={season.value}>{season.label}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    )
   }
 
   const TeamPicker = () => {
@@ -56,70 +85,22 @@ const Team = () => {
       )
   }, [team])
 
-    type Roster = {
-      id: number,
-      firstName: string,
-      lastName: string,
-      position: string,
-      shoots: "L" | "R",
-      weight: number,
-      height: number,
-      birthDate: string,
-      birthCity: string,
-      birthCountry: string
-    }
-
-    const columns = [
-      {
-          header: "ID",
-          accessorKey: "id"
-      },
-      {
-          header: "First Name",
-          accessorKey: "firstName"
-      },
-      {
-          header: "Last Name",
-          accessorKey: "lastName"
-      },
-      {
-          header: "Position",
-          accessorKey: "position"
-      },
-      {
-          header: "Shoots",
-          accessorKey: "shoots"
-      },
-      {
-          Header: "Weight",
-          accessorKey: "weight"
-      },
-      {
-          header: "Height",
-          accessorKey: "height"
-      },
-      {
-          header: "DOB",
-          accessorKey: "birthDate"
-      },
-      {
-          header: "Birth City",
-          accessorKey: "birthCity"
-      },
-      {
-          header: "Birch Country",
-          accessorKey: "birthCountry"
-      }
-  ];
+    const columns = skaterRoster;    
 
     return (
       <div>
         {typeof(roster.team_roster) === "undefined" ? (
-            <p>...</p>
+            <p>Choose a team from above</p>
         ) : (
             <>
-            <h1>Viewing {roster.team} roster </h1>
-            <AppTable data={roster.team_roster} columns={columns}/>
+            <h1 className="text-3xl">Viewing {roster.team} roster </h1>
+            <SeasonPicker/>
+            <h2 className="text-left text-xl">Forwards</h2>
+            <AppTable data={roster.team_roster.forwards} columns={columns}/>
+            <h2 className="text-left text-xl">Defensemen</h2>
+            <AppTable data={roster.team_roster.defensemen} columns={columns}/>
+            <h2 className="text-left text-xl">Goalies</h2>
+            <AppTable data={roster.team_roster.goalies} columns={columns}/>
             </>
             
         )}
