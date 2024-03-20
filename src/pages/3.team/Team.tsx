@@ -1,7 +1,8 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useEffect, useState } from "react"
 import AppTable from "@/components/Table"
-import { skaterRoster } from "./ColumnDefs"
+import { goalieStats, skaterRoster, skaterStats } from "./ColumnDefs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const Team = () => {
   
@@ -109,11 +110,56 @@ const Team = () => {
     )
   }
   
+  const TeamStats = () => {
+    const [ stats, setStats ] = useState<any>([]);
+    useEffect(() => {
+      console.log("inside teamroster useeffect ", team)
+      fetch(`/api/team_stats?team=${team}`)
+      .then(res => res.json())
+      .then(
+          data => {
+              setStats(data)
+              console.log(data)
+          }
+      )
+  }, [team])
+
+  const skaterColumns = skaterStats;
+  const goalieColumns = goalieStats;
+
+  return(
+    <div>
+        {typeof(stats.skaters) === "undefined" ? (
+            <p>Choose a team from above</p>
+        ) : (
+            <>
+            <h2 className="text-left text-xl">Skaters</h2>
+            <AppTable data={stats.skaters} columns={skaterColumns}/>
+            <h2 className="text-left text-xl">Goalies</h2>
+            <AppTable data={stats.goalies} columns={goalieColumns}/>
+            </>
+            
+        )}
+      </div>
+    )
+
+  }
 
   return (
     <div>
       <TeamPicker/>
-      <TeamRoster/>
+      <Tabs defaultValue="roster">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="roster">Roster</TabsTrigger>
+          <TabsTrigger value="stats">Stats</TabsTrigger>
+        </TabsList>
+        <TabsContent value="roster">
+          <TeamRoster/>
+        </TabsContent>
+        <TabsContent value="stats">
+          <TeamStats/>
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }
