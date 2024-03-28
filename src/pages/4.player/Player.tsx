@@ -37,7 +37,7 @@ const Player = () => {
     const [players, setPlayers] = useState<any>()
 
     useEffect(() => {
-      fetch(`/api/all_team_players?team=${chosenTeam}`)
+      fetch(`https://nhl-stats-backend.onrender.com/all_team_players?team=${chosenTeam}`)
       .then(res => res.json())
       .then(data => {
         setPlayers(data)
@@ -65,7 +65,7 @@ const Player = () => {
     const [playerInfo, setPlayerInfo] = useState<any>()
 
     useEffect(() => {
-      fetch(`/api/player_info?player=${chosenPlayer}`)
+      fetch(`https://nhl-stats-backend.onrender.com/player_info?player=${chosenPlayer}`)
       .then(res => res.json())
       .then(data => {
         setPlayerInfo(data)

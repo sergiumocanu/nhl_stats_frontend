@@ -29,7 +29,7 @@ const Game = () => {
         console.log(el.target.id)
         try {
             const game_id = el.target.id;
-            const data = await (await fetch(`/api/game_details?game_id=${game_id}`)).json()
+            const data = await (await fetch(`https://nhl-stats-backend.onrender.com/game_details?game_id=${game_id}`)).json()
             setBoxscore(data)
             console.log(data)
         } catch (err: any) {
@@ -91,7 +91,7 @@ const Game = () => {
         const [games, setGames] = useState<any>();
 
         useEffect(() => {
-            fetch(`/api/game?date=${gameDate}`)
+            fetch(`https://nhl-stats-backend.onrender.com/game?date=${gameDate}`)
             .then(response => response.json())
             .then(json => {
                 setGames(json)

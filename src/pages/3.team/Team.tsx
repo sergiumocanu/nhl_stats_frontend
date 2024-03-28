@@ -18,7 +18,7 @@ const Team = () => {
     const [season, setSeason] = useState<any>()
 
     useEffect(() => {
-      fetch(`api/team_seasons?team=${team}`)
+      fetch(`https://nhl-stats-backend.onrender.com/team_seasons?team=${team}`)
       .then(res => res.json())
       .then(data => {
         setSeason(data)
@@ -77,7 +77,7 @@ const Team = () => {
     const [ roster, setRoster ] = useState<any>([]);
     useEffect(() => {
       console.log("inside teamroster useeffect ", team)
-      fetch(`/api/team_roster?team=${team}&season=${teamSeason}`)
+      fetch(`https://nhl-stats-backend.onrender.com/team_roster?team=${team}&season=${teamSeason}`)
       .then(res => res.json())
       .then(
           data => {
@@ -114,7 +114,7 @@ const Team = () => {
     const [ stats, setStats ] = useState<any>([]);
     useEffect(() => {
       console.log("inside teamroster useeffect ", team)
-      fetch(`/api/team_stats?team=${team}`)
+      fetch(`https://nhl-stats-backend.onrender.com/team_stats?team=${team}`)
       .then(res => res.json())
       .then(
           data => {
