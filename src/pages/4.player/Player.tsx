@@ -12,7 +12,7 @@ const Player = () => {
   const TeamPicker = () => {
     const [teams, setTeams] = useState<any>()
     useEffect(() => {
-      fetch("/api/team")
+      fetch("https://nhl-stats-backend.onrender.com/team")
       .then(res => res.json())
       .then(data => setTeams(data))
     }, [])
