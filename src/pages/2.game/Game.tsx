@@ -18,6 +18,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+import { goalieColumns, skaterColumns } from "./ColumnDefs"
 
 const Game = () => {
 
@@ -29,7 +30,7 @@ const Game = () => {
         console.log(el.target.id)
         try {
             const game_id = el.target.id;
-            const data = await (await fetch(`https://nhl-stats-backend.onrender.com/game_details?game_id=${game_id}`)).json()
+            const data = await (await fetch(`/api/game_details?game_id=${game_id}`)).json()
             setBoxscore(data)
             console.log(data)
         } catch (err: any) {
@@ -91,13 +92,21 @@ const Game = () => {
         const [games, setGames] = useState<any>();
 
         useEffect(() => {
-            fetch(`https://nhl-stats-backend.onrender.com/game?date=${gameDate}`)
+            fetch(`/api/game?date=${gameDate}`)
             .then(response => response.json())
             .then(json => {
                 setGames(json)
                 console.log(json)
             })
         }, [])
+
+        const game_start_time = (time: string) => {
+            var dateObject = new Date(time)
+            var timeStr = dateObject.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric', timeZoneName: 'short'})
+
+            return(timeStr)
+
+        }
         
         return(
                 <Carousel className="pt-5">
@@ -121,7 +130,7 @@ const Game = () => {
                                 <CardContent>
                                 {(game.game_state === "FUT" || game.game_state === "PRE") &&
                                     <div>
-                                        <Badge>{game.start_time}</Badge>
+                                        <Badge>{game_start_time(game.start_time)}</Badge>
                                         <h1>Team Leaders</h1>
                                         <Carousel>
                                             <CarouselContent>
@@ -178,7 +187,7 @@ const Game = () => {
                                                 }
                                             </div>
                                         </div>}
-                                        {game.game_state === "OFF" && 
+                                        {(game.game_state === "OFF" || game.game_state === "FINAL") && 
                                         <div>
                                             <div>
                                                 {game.period.periodType === "OT" && 
@@ -233,124 +242,6 @@ const Game = () => {
     }
     
     const BoxScoreDisplay = () => {
-
-        const skaterColumns = [
-            {
-                header: "ID",
-                accessorKey: "id"
-            },
-            {
-                header: "Name",
-                accessorKey: "name"
-            },
-            {
-                header: "Sweater",
-                accessorKey: "number"
-            },
-            {
-                header: "Position",
-                accessorKey: "position"
-            },
-            {
-                header: "Goals",
-                accessorKey: "goals"
-            },
-            {
-                header: "Assists",
-                accessorKey: "assists"
-            },
-            {
-                header: "Points",
-                accessorKey: "points"
-            },
-            {
-                header: "Shots",
-                accessorKey: "shots"
-            },
-            {
-                header: "+/-",
-                accessorKey: "plusminus"
-            },
-            {
-                header: "PIM",
-                accessorKey: "pim"
-            },
-            {
-                header: "PPG",
-                accessorKey: "PPG"
-            },
-            {
-                header: "Hits",
-                accessorKey: "hits"
-            },
-            {
-                header: "TOI",
-                accessorKey: "TOI"
-            },
-            {
-                header: "FO%",
-                accessorKey: "FOWin"
-            },
-        ];
-
-        const goalieColumns = [
-            {
-                header: "ID",
-                accessorKey: "id"
-            },
-            {
-                header: "Name",
-                accessorKey: "name"
-            },
-            {
-                header: "Sweater",
-                accessorKey: "number"
-            },
-            {
-                header: "Position",
-                accessorKey: "position"
-            },
-            {
-                header: "GA",
-                accessorKey: "GA"
-            },
-            {
-                header: "Save SA",
-                accessorKey: "saveSA"
-            },
-            {
-                header: "Even Strength GA",
-                accessorKey: "evenStrengthGA"
-            },
-            {
-                header: "Even Strength SA",
-                accessorKey: "evenStrengthSA"
-            },
-            {
-                header: "PowerPlay GA",
-                accessorKey: "powerPlayGA"
-            },
-            {
-                header: "PowerPlay SA",
-                accessorKey: "powerPlaySA"
-            },
-            {
-                header: "Shorthanded GA",
-                accessorKey: "shorthandedGA"
-            },
-            {
-                header: "Shorthanded SA",
-                accessorKey: "shorthandedSA"
-            },
-            {
-                header: "TOI",
-                accessorKey: "toi"
-            },
-            {
-                header: "PIM",
-                accessorKey: "pim"
-            },
-        ];
 
         return (
             <div>
