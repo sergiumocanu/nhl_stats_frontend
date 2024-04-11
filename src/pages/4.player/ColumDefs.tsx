@@ -107,3 +107,78 @@ export const last5Games = [
         accessorKey: "toi"
     },
 ]
+
+export const careerTotals = [
+    {
+        header: "Season",
+        accessorKey: "season"
+    },
+    {
+        header: "League",
+        accessorKey: "leagueAbbrev"
+    },
+    {
+        header: "Team",
+        accessorKey: "teamName.default"
+    },
+    {
+        header: "GP",
+        accessorKey: "gamesPlayed"
+    },
+    {
+        header: "G",
+        accessorKey: "goals"
+    },
+    {
+        header: "A",
+        accessorKey: "assists"
+    },
+    {
+        header: "P",
+        accessorKey: "points"
+    },
+    {
+        header: "+/-",
+        accessorKey: "plusMinus"
+    },
+    {
+        header: "PIM",
+        accessorKey: "pim"
+    },
+    {
+        header: "PPG",
+        accessorKey: "powerPlayGoals"
+    },
+    {
+        header: "PPP",
+        accessorKey: "powerPlayPoints"
+    },
+    {
+        header: "SHG",
+        accessorKey: "shorthandedGoals"
+    },
+    {
+        header: "SHP",
+        accessorKey: "shorthandedPoints"
+    },
+    {
+        header: "AVG-TOI",
+        accessorKey: "avgTOI"
+    },
+    {
+        header: "GWG",
+        accessorKey: "gameWinningGoals"
+    },
+    {
+        header: "OTG",
+        accessorKey: "otGoals"
+    },
+    {
+        header: "S",
+        accessorKey: "shots"
+    },
+    {
+        header: "S%",
+        accessorKey: "shootingPctg"
+    },
+]
