@@ -1,6 +1,6 @@
-import path from "path"
-import react from "@vitejs/plugin-react"
-import { defineConfig } from "vite"
+import path from "path";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
@@ -12,12 +12,13 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        // target: "https://nhl-stats-backend.onrender.com/",
-        target: "http://localhost:5000",
+        target: "https://nhl-stats-backend.onrender.com/",
+        // target: "http://localhost:5000",
+        // target: "https://api-web.nhle.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
-      }
-    }
-  }
-})
+      },
+    },
+  },
+});
