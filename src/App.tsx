@@ -1,31 +1,10 @@
+import "./App.css";
 
-import './App.css'
-import Navbar from './components/Navbar'
-import Home from './pages/1.home/Home'
-import Game from './pages/2.game/Game'
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom'
-import Team from './pages/3.team/Team'
-import Player from './pages/4.player/Player'
-
-function App() {
-
+export default function App() {
   return (
-    <>
-      <Router>
-        <Navbar/>
-        <Routes>
-          <Route path="/" element={<Home/>} />
-          <Route path="/game" element={<Game/>} />
-          <Route path="/team" element={<Team/>} />
-          <Route path="/player" element={<Player/>} />
-        </Routes>
-      </Router>
-    </>
-  )
+    <div className="App">
+      <h1>Welcome to the NHL App</h1>
+      <p>Explore the latest NHL games and teams!</p>
+    </div>
+  );
 }
-
-export default App
